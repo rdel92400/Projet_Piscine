@@ -1,5 +1,8 @@
 #ifndef PROJET_SOMMET_H
 #define PROJET_SOMMET_H
+
+//Ici il faudrait mettre #include "Bibliotheque.h" a la place de tous les define mais jsp pourquoi ca marche pas
+
 #include <iostream>
 #include <vector>
 #include <iostream>
@@ -11,18 +14,22 @@
 #define poids std::pair<int, std::string>
 
 class Sommet {
+
 private:
     int m_num;
     std::string m_nom;
     int m_alt;
-    std::vector<std::pair<Sommet*, poids> >m_successeurs;
+    std::vector<std::pair<Sommet*, poids>> m_successeurs;
+
 public:
     Sommet(int num);
+
     ///Getteur
     int getNum()const;
     int getAlt()const;
     std::string getNom()const;
-    std::vector<std::pair<Sommet*, poids> >getSuccesseurs();
+    std::vector<std::pair<Sommet*, poids>> getSuccesseurs();
+
     ///Accesseur
     void setNom(std::string nom);
     void setAlt(int alt);

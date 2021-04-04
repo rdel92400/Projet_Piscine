@@ -32,4 +32,8 @@ void Sommet::ajouterSuccesseurs(Sommet *s, int tps, std::string type) {
     m_successeurs.push_back(std::make_pair(s, poids(tps, type)));
 }
 
+void Sommet::afficher() {
+
+}
+
 
