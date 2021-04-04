@@ -1,4 +1,5 @@
-#include "Sommet.h"
+#ifndef PROJET_BIBLIOTHEQUE_H
+#define PROJET_BIBLIOTHEQUE_H
 #include "Graphe.h"
 #include <iostream>
 #include <vector>
@@ -8,9 +9,4 @@
 #include <fstream>
 #include <algorithm>
 
-
-int main() {
-    Graphe g{ "chargementss.txt" };
-    g.afficher();
-    return 0;
-}
+#endif //PROJET_BIBLIOTHEQUE_H
