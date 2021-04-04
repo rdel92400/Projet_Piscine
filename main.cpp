@@ -10,7 +10,7 @@
 
 
 int main() {
-    Graphe g{ "chargementss.txt" };
+    Graphe g{ "chargement.txt" };
     g.afficher();
     return 0;
 }

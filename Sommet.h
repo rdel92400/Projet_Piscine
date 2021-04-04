@@ -1,7 +1,5 @@
 #ifndef PROJET_SOMMET_H
 #define PROJET_SOMMET_H
-#include "Bibliotheque.h"
-#include "Graphe.h"
 #include <iostream>
 #include <vector>
 #include <iostream>
