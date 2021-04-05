@@ -22,7 +22,7 @@ void menu() {
 
         switch (choix) {
             case 1 :
-                //system("cls");
+                system("cls");
                 std::cout << "Pas encore implemente" << std::endl;
                 std::cout << "0 - Arreter" << std::endl;
                 std::cout << "1 - Retour" << std::endl;
@@ -30,7 +30,7 @@ void menu() {
                 break;
 
             case 2 :
-                //system("cls");
+                system("cls");
                 std::cout << "Pas encore implemente" << std::endl;
                 std::cout << "0 - Arreter" << std::endl;
                 std::cout << "1 - Retour" << std::endl;
@@ -38,7 +38,7 @@ void menu() {
                 break;
 
             case 3 :
-                //system("cls");
+                system("cls");
                 std::cout << "Pas encore implemente" << std::endl;
                 std::cout << "0 - Arreter" << std::endl;
                 std::cout << "1 - Retour" << std::endl;
@@ -46,7 +46,7 @@ void menu() {
                 break;
 
             case 4 :
-                //system("cls");
+                system("cls");
                 std::cout << "Pas encore implemente" << std::endl;
                 std::cout << "0 - Arreter" << std::endl;
                 std::cout << "1 - Retour" << std::endl;

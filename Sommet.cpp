@@ -16,7 +16,7 @@ int Sommet::getAlt() const {
     return m_alt;
 }
 
-std::vector<std::pair<Sommet*, poids> > Sommet::getSuccesseurs() {
+std::vector<std::pair<Sommet*, Arrete*> > Sommet::getSuccesseurs() {
     return m_successeurs;
 }
 
@@ -28,8 +28,13 @@ void Sommet::setAlt(int alt) {
     m_alt = alt;
 }
 
-void Sommet::ajouterSuccesseurs(Sommet *s, int tps, std::string type) {
-    m_successeurs.push_back(std::make_pair(s, poids(tps, type)));
+void Sommet::ajouterSuccesseurs(Sommet *s, int tps, std::string type, int num, std::string nom) {
+    Arrete* tpm = new Arrete;
+    tpm->setNum(num);
+    tpm->setNom(nom);
+    tpm->setTps(tps);
+    tpm->setType(type);
+    m_successeurs.push_back(std::make_pair(s, tpm));
 }
 
 void Sommet::afficher() {
