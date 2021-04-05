@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <list>
 #include <fstream>
 #include <algorithm>
 #include <windows.h>

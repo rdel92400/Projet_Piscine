@@ -61,7 +61,6 @@ Graphe::Graphe(std::string nomFichier)
     for (int i = 0; i < m_taille; i++)
     {
         ifs >> numArrete >> nom1 >> nom2 >> s1 >> s2;
-        std::cout << numArrete << std::endl;
         if (ifs.fail())
             throw std::runtime_error("Probleme chargement donnees arretes");
         m_sommets[s1-1]->ajouterSuccesseurs(m_sommets[s2-1],calculTps(nom2,m_sommets[s1-1],m_sommets[s2-1],tabRemontees,tabDescentes),nom2,numArrete,nom1);
@@ -110,15 +109,17 @@ void Graphe::afficher()
 void Graphe::rechercheCoord() {
     bool test = true;
     std::string trajet;
-    std::cout << "Choisissez un trajet pour trouver ses coordonnees d'arrivee et de depart : ";
+    std::cout << std::endl << "Choisissez un trajet : ";
     std::cin >> trajet;
     for (const auto s : m_sommets)
     {
         for (const auto& s2 : s->getSuccesseurs())
         {
-           if (s2.second->getNom() == trajet){
-               std::cout << "Le trajet "<< trajet <<" part du sommet " << s->getNum() <<" : "<< s->getNom()
-                         << " et arrive au sommet " << s2.first->getNum() << " : " << s2.first->getNom() << std::endl;
+           if (s2.second->getNom() == trajet)
+           {
+               std::cout << std::endl << "Ce trajet est de type " << s2.second->getType() << std::endl;
+               std::cout << "Le trajet " << trajet << " part du sommet " << s->getNom() << " (" << s->getNum() << ") " << std::endl
+                         << "Le trajet " << trajet << " arrive au sommet " << s2.first->getNom() << " (" << s2.first->getNum() << ") " << std::endl;
                test = false;
            }
         }
@@ -128,3 +129,102 @@ void Graphe::rechercheCoord() {
     }
 }
 
+void Graphe::rechercheBFS()
+{
+    std::string sommet;
+
+    std::cout << std::endl << "Choisissez un sommet : ";
+    std::cin >> sommet;
+
+    //Recherche des arretes qui partent du sommet
+    std::cout << std::endl << "Trajets qui partent du sommet :" << std::endl;
+    for (const auto s : m_sommets)
+    {
+        if (s->getNom() == sommet)
+        {
+            for (const auto& s2 : s->getSuccesseurs())
+            {
+                if (s->getAlt() > s2.first->getAlt())
+                    std::cout << "Descente : " << s2.second->getNom() << " (type : " << s2.second->getType() << ", num : " << s2.second->getNum() << ")\n";
+                if (s->getAlt() < s2.first->getAlt())
+                    std::cout << "Remontee : " << s2.second->getNom() << " (type : " << s2.second->getType() << ", num : " << s2.second->getNum() << ")\n";
+            }
+        }
+    }
+    //Recherche des arretes qui arrivent au sommet
+    std::cout << std::endl << "Trajets qui arrivent au sommet :" << std::endl;
+    for (const auto s : m_sommets)
+    {
+        for (const auto& s2 : s->getSuccesseurs())
+        {
+            if (s2.first->getNom() == sommet)
+            {
+                if (s->getAlt() > s2.first->getAlt())
+                    std::cout << "Descente : " << s2.second->getNom() << " (type : " << s2.second->getType() << ", num : " << s2.second->getNum() << ")\n";
+                if (s->getAlt() < s2.first->getAlt())
+                    std::cout << "Remontee : " << s2.second->getNom() << " (type : " << s2.second->getType() << ", num : " << s2.second->getNum() << ")\n";
+            }
+        }
+    }
+
+    //Algo BFS pour les chemins partant du sommet vers tous les autres
+    std::cout << std::endl << "Chemins partant du sommet " << sommet << " vers tous les autres :" << std::endl;
+
+    int src, srcTemp;
+    for (const auto s :m_sommets)
+    {
+        if (s->getNom() == sommet)
+            src = s->getNum();
+    }
+    srcTemp = src;
+
+    std::vector<int> parent(m_ordre+1);
+    bool *visited = new bool[m_ordre];
+    std::list<int> queue;
+
+    for (int i = 0; i < m_ordre; i++)
+    {
+        visited[i] = false;
+        parent[i] = -1;
+    }
+    visited[srcTemp] = true;
+    queue.push_back(srcTemp);
+
+    while (!queue.empty())
+    {
+        srcTemp = queue.front();
+        queue.pop_front();
+
+        for (auto elem : m_sommets[srcTemp-1]->getSuccesseurs())
+        {
+            if (!visited[elem.first->getNum()])
+            {
+                visited[elem.first->getNum()] = true;
+                parent[elem.first->getNum()] = srcTemp;
+                queue.push_back(elem.first->getNum());
+            }
+        }
+    }
+
+    for (int i = 1; i <= m_ordre; i++)
+    {
+        std::cout << "De " << sommet << " (" << src << ") vers " << i << " : ";
+        affichageBFS(src, i, parent);
+        std::cout << std::endl;
+    }
+}
+
+void Graphe::affichageBFS(int source, int destination, std::vector<int> parent)
+{
+    if (source == destination)
+        std::cout << source;
+
+    else if (parent[destination] == -1)
+        std::cout << "Il n'y a pas de chemin de " << source << " vers " << destination;
+
+    else
+    {
+        affichageBFS(source, parent[destination],parent);
+        std::cout << " -> " << destination;
+    }
+}

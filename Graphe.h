@@ -20,6 +20,8 @@ public:
     Sommet* getSommet(int num);
     void afficher();
     void rechercheCoord();
+    void rechercheBFS();
+    void affichageBFS(int source, int destination, std::vector<int> parent);
 };
 
 

@@ -5,33 +5,37 @@ void menu() {
 
     int choix;
     Graphe g{"chargement.txt"};
-    g.afficher();
+    //g.afficher();
 
     do {
         std::cout << " //////////////////// Bienvenue a la borne interactive des Arcs ! \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\" << std::endl;
 
         std::cout << "Que voulez-vous faire ?" << std::endl;
 
-        std::cout << "1 - Connaitre d'ou part et arrive un chemin (Pas fait)" << std::endl;
+        std::cout << "1 - Connaitre d'ou part et arrive un chemin" << std::endl;
         std::cout << "2 - Connaitre les trajets permettant d'arriver a un point (Pas fait)" << std::endl;
         std::cout << "3 - Connaitre les chemins les plus courts a partir d'un point choisi (Pas fait)" << std::endl;
         std::cout << "4 - Connaitre l'itineraire le plus rapide entre deux points (Pas fait)" << std::endl;
 
+        std::cout << "\nChoix : ";
         std::cin >> choix;
 
         switch (choix) {
             case 1 :
                 //system("cls");
                 g.rechercheCoord();
-                std::cout << "Pas encore implemente" << std::endl;
+
+                std::cout << std::endl;
                 std::cout << "0 - Arreter" << std::endl;
                 std::cout << "1 - Retour" << std::endl;
                 std::cin >> choix;
                 break;
 
             case 2 :
-                system("cls");
-                std::cout << "Pas encore implemente" << std::endl;
+                //system("cls");
+                g.rechercheBFS();
+
+                std::cout << std::endl;
                 std::cout << "0 - Arreter" << std::endl;
                 std::cout << "1 - Retour" << std::endl;
                 std::cin >> choix;
@@ -97,7 +101,6 @@ int calculTps(std::string type, Sommet* s1, Sommet* s2, std::vector<std::pair<st
     if (alt < 0)
         alt = -alt;
 
-    std::cout << tps << " + ( " << alt << " /100 ) * " << tpsprop << std::endl;
     tpsTot = tps + (alt/100)*tpsprop;
 
     return tpsTot;
