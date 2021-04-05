@@ -36,6 +36,7 @@ void Arrete::setTps(int tps) {
     m_tps = tps;
 }
 
-int Arrete::getTps() {
+int Arrete::getTps() const {
     return m_tps;
 }
+

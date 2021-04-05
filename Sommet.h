@@ -3,13 +3,7 @@
 
 //Ici il faudrait mettre #include "Bibliotheque.h" a la place de tous les define mais jsp pourquoi ca marche pas
 
-#include <iostream>
-#include <vector>
-#include <iostream>
-#include <string>
-#include <map>
-#include <fstream>
-#include <algorithm>
+#include "Bibliotheque.h"
 #include "Arrete.h"
 
 

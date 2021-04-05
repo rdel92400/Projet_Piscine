@@ -2,7 +2,9 @@
 #define PROJET_GRAPHE_H
 
 #include "Bibliotheque.h"
+#include "Fonctions.h"
 #include "Sommet.h"
+
 
 class Graphe {
 
@@ -17,6 +19,7 @@ public:
 
     Sommet* getSommet(int num);
     void afficher();
+    void rechercheCoord();
 };
 
 

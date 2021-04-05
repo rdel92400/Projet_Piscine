@@ -96,12 +96,35 @@ void Graphe::afficher()
     {
         for (const auto& s2 : s->getSuccesseurs())
         {
-            std::cout << i <<std::endl;
-            i++;
+            std::cout << "Num : " << s2.second->getNum() << std::endl;
             std::cout   << s->getNum() << " -- " << s2.first->getNum() << " : " << std::endl
                         << "Temps : " << s2.second->getTps() << std::endl
-                        << "Type : " << s2.second->getType() << std::endl << std::endl;
+                        << "Type : " << s2.second->getType() << std::endl
+                        << "Nom : " << s2.second->getNom() << std::endl << std::endl;
+
         }
         std::cout << std::endl;
     }
 }
+
+void Graphe::rechercheCoord() {
+    bool test = true;
+    std::string trajet;
+    std::cout << "Choisissez un trajet pour trouver ses coordonnees d'arrivee et de depart : ";
+    std::cin >> trajet;
+    for (const auto s : m_sommets)
+    {
+        for (const auto& s2 : s->getSuccesseurs())
+        {
+           if (s2.second->getNom() == trajet){
+               std::cout << "Le trajet "<< trajet <<" part du sommet " << s->getNum() <<" : "<< s->getNom()
+                         << " et arrive au sommet " << s2.first->getNum() << " : " << s2.first->getNom() << std::endl;
+               test = false;
+           }
+        }
+    }
+    if (test == true){
+        std::cout << "Ce trajet n'existe pas" << std::endl;
+    }
+}
+
