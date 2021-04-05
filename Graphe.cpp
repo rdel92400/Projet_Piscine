@@ -64,7 +64,7 @@ Graphe::Graphe(std::string nomFichier)
         std::cout << numArrete << std::endl;
         if (ifs.fail())
             throw std::runtime_error("Probleme chargement donnees arretes");
-        m_sommets[s1-1]->ajouterSuccesseurs(m_sommets[s2-1],calculTps(nom2,m_sommets[s1-1],m_sommets[s2-1],tabRemontees,tabDescentes),nom2);
+        m_sommets[s1-1]->ajouterSuccesseurs(m_sommets[s2-1],calculTps(nom2,m_sommets[s1-1],m_sommets[s2-1],tabRemontees,tabDescentes),nom2,numArrete,nom1);
     }
 }
 
@@ -99,8 +99,8 @@ void Graphe::afficher()
             std::cout << i <<std::endl;
             i++;
             std::cout   << s->getNum() << " -- " << s2.first->getNum() << " : " << std::endl
-                        << "Temps : " << s2.second.first << std::endl
-                        << "Type : " << s2.second.second << std::endl << std::endl;
+                        << "Temps : " << s2.second->getTps() << std::endl
+                        << "Type : " << s2.second->getType() << std::endl << std::endl;
         }
         std::cout << std::endl;
     }
