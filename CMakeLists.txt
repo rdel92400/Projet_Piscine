@@ -3,4 +3,4 @@ project(Projet)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Projet main.cpp Graphe.cpp Graphe.h Sommet.cpp Sommet.h Bibliotheque.h)
+add_executable(Projet main.cpp Graphe.cpp Graphe.h Sommet.cpp Sommet.h Bibliotheque.h Menu.cpp)

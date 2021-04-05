@@ -2,9 +2,9 @@
 
 int main()
 {
-    Graphe g{"chargement.txt"};
-    g.afficher();
-
+    //Graphe g{"chargement.txt"};
+    //g.afficher();
+    menu();
     return 0;
 }
 
