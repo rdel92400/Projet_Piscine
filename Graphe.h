@@ -18,6 +18,7 @@ public:
     Graphe(std::string nomFichier);
     ~Graphe();
     Sommet* getSommet(int num);
+    int getOrdre();
 
     ///Autres
     void afficher();
@@ -26,6 +27,7 @@ public:
     void BFS(std::string sommet, std::string arrivee, std::string type);
     void affichageBFS(int source, int destination, std::vector<int> parent);
     void dijkstra(Sommet* depart, Sommet* arrivee);
+    void modifTemps(std::string nomFichier, std::string type, int newTemps);
 
     ///Fonction pour dijkstra
     void reinitialisationGraphe();

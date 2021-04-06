@@ -6,7 +6,6 @@
 #include "Bibliotheque.h"
 #include "Arrete.h"
 
-
 class Sommet {
 
 private:

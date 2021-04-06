@@ -5,7 +5,7 @@ void menu() {
 
     int depart, arrivee;
     int choix;
-    Graphe g{"chargement.txt"};
+    Graphe g{"chargementV2.txt"};
     //g.afficher();
 
     do {
@@ -13,10 +13,12 @@ void menu() {
 
         std::cout << "Que voulez-vous faire ?" << std::endl;
 
+        std::cout << "0 - Quitter" << std::endl;
         std::cout << "1 - Connaitre d'ou part et arrive un trajet" << std::endl;
         std::cout << "2 - Connaitre les trajets/chemins complets arrivant et partant d'un sommet " << std::endl;
         std::cout << "3 - Connaitre les chemins les plus courts a partir d'un point choisi (Pas fait)" << std::endl;
         std::cout << "4 - Connaitre l'itineraire le plus rapide entre deux points (Pas fait)" << std::endl;
+        std::cout << "5 - Modifier temps trajets" << std::endl;
 
         std::cout << "\nChoix : ";
         std::cin >> choix;
@@ -69,6 +71,13 @@ void menu() {
                 std::cout << "1 - Retour" << std::endl;
                 std::cin >> choix;
                 break;
+
+            case 5 :
+                //system("cls");
+                std::cout << "Blabla" << std::endl;
+                g.modifTemps("chargementV2.txt","TK",8);
+                break;
+
         }
     } while (choix != 0);
 
