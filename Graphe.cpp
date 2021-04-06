@@ -296,3 +296,73 @@ void Graphe::dijkstra(Sommet* depart, Sommet* arrivee)
     }
     std::cout << std::endl;
 }
+
+int Graphe::getOrdre() {
+    return m_ordre;
+}
+
+void Graphe::modifTemps(std::string nomFichier, std::string typeTransport, int newTemps) {
+    std::ofstream ifs(nomFichier.c_str(), std::ios::app);
+    if (!ifs)
+        throw std::runtime_error( "Impossible d'ouvrir le fichier " + nomFichier );
+    ifs << m_ordre;
+    if (ifs.fail())
+        throw std::runtime_error("Probleme lecture ordre du graphe");
+
+    //Chargement sommets
+    int num1, num3;
+    std::string num2;
+    for (int i = 0; i < m_ordre; i++)
+    {
+        m_sommets.push_back(new Sommet{ i+1});
+        ifs << num1 << num2 << num3;
+        if (ifs.fail())
+            throw std::runtime_error("Probleme chargement donnees sommets");
+        m_sommets[i]->setNom(num2);
+        m_sommets[i]->setAlt(num3);
+    }
+
+    //Chargement des types et des temps des arretes
+    std::string var1, var2;
+    float temp1, temp2, n1, n2, n3;
+    ifs << temp1;
+    std::vector<std::pair<std::string, std::pair<int, int>>> tabRemontees (temp1);
+    if (ifs.fail())
+        throw std::runtime_error("Probleme lecture nb de remontees");
+    for (int i = 0; i < temp1; i++)
+    {
+        ifs << var1 << n1 << n2;
+        if (ifs.fail())
+            throw std::runtime_error("Probleme chargement remontees");
+        tabRemontees[i].first = var1;
+        tabRemontees[i].second.first = n1;
+        tabRemontees[i].second.second = n2;
+    }
+    ifs << temp2;
+    std::vector<std::pair<std::string, int>> tabDescentes (temp2);
+    if (ifs.fail())
+        throw std::runtime_error("Probleme lecture nb de descentes");
+    for (int i = 0; i < temp2; i++)
+    {
+        ifs << var2 << n3;
+        if (ifs.fail())
+            throw std::runtime_error("Probleme chargement descentes");
+        tabDescentes[i].first = var2;
+        tabDescentes[i].second = n3;
+    }
+
+    ifs << m_taille;
+    if (ifs.fail())
+        throw std::runtime_error("Probleme lecture taille du graphe");
+
+    //Chargement arretes
+    int numArrete, s1, s2;
+    std::string nom1, nom2;
+    for (int i = 0; i < m_taille; i++)
+    {
+        ifs << numArrete << nom1 << nom2 << s1 << s2;
+        if (ifs.fail())
+            throw std::runtime_error("Probleme chargement donnees arretes");
+        m_sommets[s1-1]->ajouterSuccesseurs(m_sommets[s2-1],calculTps(nom2,m_sommets[s1-1],m_sommets[s2-1],tabRemontees,tabDescentes),nom2,numArrete,nom1);
+    }
+}

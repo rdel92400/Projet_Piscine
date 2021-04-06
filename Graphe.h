@@ -12,6 +12,7 @@ private:
     int m_ordre;
     int m_taille;
     std::vector<Sommet*> m_sommets;
+    int getOrdre();
 
 public:
     ///Constructeur
@@ -26,6 +27,7 @@ public:
     void BFS(std::string sommet, std::string arrivee, std::string type);
     void affichageBFS(int source, int destination, std::vector<int> parent);
     void dijkstra(Sommet* depart, Sommet* arrivee);
+    void modifTemps(std::string nomFichier, std::string type, int newTemps);
 
 };
 
