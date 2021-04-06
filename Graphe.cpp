@@ -14,7 +14,7 @@ Graphe::Graphe(std::string nomFichier)
     std::string num2;
     for (int i = 0; i < m_ordre; i++)
     {
-        m_sommets.push_back(new Sommet{ i+1 });
+        m_sommets.push_back(new Sommet{ i+1, 0 });
         ifs >> num1 >> num2 >> num3;
         if (ifs.fail())
             throw std::runtime_error("Probleme chargement donnees sommets");
@@ -257,7 +257,7 @@ void Graphe::dijkstra(Sommet* depart, Sommet* arrivee) {
     std::vector<int> distance;
     int currentSommet, numSucc, poidsSucc;
 
-    for (int i = 0; i < m_ordre; i++)
+    for (int i = 0; i < m_ordre+1; i++)
         distance.push_back(1000);
 
     file.push(std::make_pair(0, depart->getNum()));
@@ -268,14 +268,14 @@ void Graphe::dijkstra(Sommet* depart, Sommet* arrivee) {
         currentSommet = file.top().second;
         file.pop();
 
-        for (auto succ : m_sommets[currentSommet]->getSuccesseurs())
+        for (auto succ : m_sommets[currentSommet-1]->getSuccesseurs())
         {
             numSucc = succ.first->getNum();
             poidsSucc = succ.second->getTps();
 
             if (distance[numSucc] > distance[currentSommet] + poidsSucc)
             {
-                std::cout << succ.first->getNum() << " (" << distance[numSucc] << ") "<< " - ";
+                //std::cout << succ.first->getNum() << " (" << distance[numSucc] << ") "<< " - ";
                 distance[numSucc] = distance[currentSommet] + poidsSucc;
                 file.push(std::make_pair(distance[numSucc], numSucc));
             }
@@ -289,6 +289,143 @@ void Graphe::dijkstra(Sommet* depart, Sommet* arrivee) {
 
     std::cout << std::endl;
 }
+
+void Graphe::reinitialisationGraphe() {
+    for (auto elem : m_sommets)
+    {
+        elem->reset();
+    }
+}
+
+bool Graphe::testPassage() {
+    for (int i = 0; i < m_ordre+1; i++)
+    {
+        if (m_sommets[i]->getBool() == 0)
+            return false;
+    }
+    return true;
+}
+
+Sommet *Graphe::CalculPlusCoursChemin(std::vector<int> dist, Sommet *s) {
+    int dist_act = 0;
+    int num_act = 0;
+
+
+    for (int i = 0; i < dist.size(); i++) {
+        if (i != s->getNum()) {
+            if (((dist_act == 0) || (dist_act > dist[i])) && (m_sommets[i]->getBool() == 0) && (dist[i] != 0)) {
+
+                dist_act = dist[i];
+                num_act = i;
+            }
+        }
+    }
+    return m_sommets[num_act];
+}
+
+void Graphe::dijkstra2(Sommet *depart, Sommet *arrivee) {
+    Sommet* dep = depart;
+    std::vector<Sommet*> predec;
+    std::vector<int> distance;
+
+
+    //initialisation de toutes les distances a 0;
+    for (int i = 0; i < m_ordre+1; i++)
+    {
+        distance.push_back(0);
+        predec.push_back(nullptr);
+    }
+    Sommet* sommet_act;
+    depart->setPassage(nullptr);
+
+
+    while (testPassage() == false)
+    {
+        for (auto elem : depart->getSuccesseurs())
+        {
+            if ((elem.second->getTps() + distance[depart->getNum()] < distance[elem.first->getNum()]) || ((distance[elem.first->getNum()] == 0) && (elem.first != dep)))
+            {
+                distance[elem.first->getNum()] = elem.second->getTps() + distance[depart->getNum()];
+                predec[elem.first->getNum()] = depart;
+            }
+        }
+        sommet_act = CalculPlusCoursChemin(distance, depart);
+        sommet_act->setPassage(predec[sommet_act->getNum()]);
+        depart = sommet_act;
+    }
+
+    for (int i = 0; i < m_ordre+1; i++)
+    {
+        if (i == arrivee->getNum())
+        {
+            bool calcul = true;
+            Sommet* save = m_sommets[i];
+            /* creation d'un vecteur avec les sommets plus court chemin*/
+            std::vector<Sommet*> sommets;
+
+            while (true)
+            {
+                sommets.push_back(save);
+
+                std::cout << save->getNum() << "<-";
+
+                if (save->getPred() == nullptr)
+                {
+                    //Vérificaion d'une erreur
+                    std::cout << "Erreur, les sommets ne sont pas reliés" << std::endl;
+                    calcul = false;
+
+                    break;
+                }
+
+                else if (save->getPred() != dep)
+                    //Stockage du sommet
+                    save = save->getPred();
+
+                else
+                {
+                    //affichage finale
+                    std::cout << save->getPred()->getNum();
+                    break;
+                }
+            }
+
+            if (calcul == true)
+            {
+                int dist_tot = 0;
+
+                std::cout << " = ";
+
+
+                for (unsigned int k = 0; k < sommets.size(); k++)
+                {
+                    int dist_act;
+
+                    if (k < sommets.size() - 1)
+                        dist_act = sommets[sommets.size() - 1 - k]->getDistSucc(sommets[sommets.size() - 2 - k]);
+
+                    else
+                    {
+                        dist_act = dep->getDistSucc(sommets[sommets.size() - 1]);
+                        std::cout << dist_act;
+
+                        dist_tot += dist_act;
+
+                        break;
+                    }
+                    std::cout << dist_act << "+";
+
+                    dist_tot += dist_act;
+                }
+                //Affichage de la distances totale
+
+                std::cout << " = " << dist_tot << std::endl;
+            }
+        }
+    }
+}
+
+
 
 
 
