@@ -137,7 +137,7 @@ void Graphe::rechercheBFS()
     std::cin >> sommet;
 
     //Recherche des arretes qui partent du sommet
-    std::cout << std::endl << "Trajets qui partent du sommet :" << std::endl;
+    std::cout << std::endl << "Trajets qui partent du sommet " << sommet << " : " << std::endl;
     for (const auto s : m_sommets)
     {
         if (s->getNom() == sommet)
@@ -151,8 +151,9 @@ void Graphe::rechercheBFS()
             }
         }
     }
+
     //Recherche des arretes qui arrivent au sommet
-    std::cout << std::endl << "Trajets qui arrivent au sommet :" << std::endl;
+    std::cout << std::endl << "Trajets qui arrivent au sommet " << sommet << " : " << std::endl;
     for (const auto s : m_sommets)
     {
         for (const auto& s2 : s->getSuccesseurs())
@@ -169,12 +170,24 @@ void Graphe::rechercheBFS()
 
     //Algo BFS pour les chemins partant du sommet vers tous les autres
     std::cout << std::endl << "Chemins partant du sommet " << sommet << " vers tous les autres :" << std::endl;
+    BFS(sommet,sommet, "vers les autres sommets");
 
-    int src, srcTemp;
+    //Algo BFS pour les chemins arrivant au sommet depuis tous les autres
+    std::cout << std::endl << "Chemins arrivant au sommet " << sommet << " depuis tous les autres :" << std::endl;
+    for (const auto s :m_sommets)
+        BFS(s->getNom(),sommet,"depuis les autres sommets");
+
+}
+
+void Graphe::BFS(std::string sommet, std::string arrivee, std::string type)
+{
+    int src, dest, srcTemp;
     for (const auto s :m_sommets)
     {
         if (s->getNom() == sommet)
             src = s->getNum();
+        if (s->getNom() == arrivee)
+            dest = s->getNum();
     }
     srcTemp = src;
 
@@ -206,10 +219,20 @@ void Graphe::rechercheBFS()
         }
     }
 
-    for (int i = 1; i <= m_ordre; i++)
+    //Affichage BFS pour les deux cas de figure
+    if (type == "vers les autres sommets")
     {
-        std::cout << "De " << sommet << " (" << src << ") vers " << i << " : ";
-        affichageBFS(src, i, parent);
+        for (int i = 1; i <= m_ordre; i++)
+        {
+            std::cout << "De " << sommet << " vers " << m_sommets[i-1]->getNom() << " : ";
+            affichageBFS(src, i, parent);
+            std::cout << std::endl;
+        }
+    }
+    else if (type == "depuis les autres sommets")
+    {
+        std::cout << "De " << sommet << " vers " << arrivee << " : ";
+        affichageBFS(src, dest, parent);
         std::cout << std::endl;
     }
 }

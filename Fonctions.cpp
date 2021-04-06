@@ -12,8 +12,8 @@ void menu() {
 
         std::cout << "Que voulez-vous faire ?" << std::endl;
 
-        std::cout << "1 - Connaitre d'ou part et arrive un chemin" << std::endl;
-        std::cout << "2 - Connaitre les trajets permettant d'arriver a un point (Pas fait)" << std::endl;
+        std::cout << "1 - Connaitre d'ou part et arrive un trajet" << std::endl;
+        std::cout << "2 - Connaitre les trajets/chemins complets arrivant et partant d'un sommet " << std::endl;
         std::cout << "3 - Connaitre les chemins les plus courts a partir d'un point choisi (Pas fait)" << std::endl;
         std::cout << "4 - Connaitre l'itineraire le plus rapide entre deux points (Pas fait)" << std::endl;
 

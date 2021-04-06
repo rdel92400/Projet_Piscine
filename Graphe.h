@@ -21,6 +21,7 @@ public:
     void afficher();
     void rechercheCoord();
     void rechercheBFS();
+    void BFS(std::string sommet, std::string arrivee, std::string type);
     void affichageBFS(int source, int destination, std::vector<int> parent);
 };
 
