@@ -1,9 +1,7 @@
 #include "Sommet.h"
 
-Sommet::Sommet(int num, int b) {
+Sommet::Sommet(int num) {
     m_num = num;
-    b = 0;
-    m_predecesseur = nullptr;
 }
 
 int Sommet::getNum() const {
@@ -38,30 +36,3 @@ void Sommet::ajouterSuccesseurs(Sommet *s, int tps, std::string type, int num, s
     tpm->setType(type);
     m_successeurs.push_back(std::make_pair(s, tpm));
 }
-
-
-int Sommet::getDistSucc(Sommet* sommet)
-{
-    for (auto s : getSuccesseurs())
-    {
-        if (s.first == sommet)
-            return s.second->getTps();
-    }
-    return 0;
-}
-
-void Sommet::reset() {
-    m_bool = 0;
-    m_predecesseur = nullptr;
-}
-
-void Sommet::setPassage(Sommet *pred) {
-    m_predecesseur = pred;
-    m_bool = 1;
-}
-
-void Sommet::setPred(Sommet *pred) {
-    m_predecesseur = pred;
-}
-
-

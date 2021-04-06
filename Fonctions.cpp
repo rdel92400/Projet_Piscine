@@ -44,12 +44,6 @@ void menu() {
 
             case 3 :
                 //system("cls");
-                std::cout << "Depart : ";
-                std::cin >> depart;
-                std::cout << "Arrivee : ";
-                std::cin >> arrivee;
-                g.dijkstra2(g.getSommet(depart), g.getSommet(arrivee));
-                g.reinitialisationGraphe();
 
                 std::cout << "Pas encore implemente" << std::endl;
                 std::cout << "0 - Arreter" << std::endl;

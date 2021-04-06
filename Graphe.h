@@ -27,11 +27,6 @@ public:
     void affichageBFS(int source, int destination, std::vector<int> parent);
     void dijkstra(Sommet* depart, Sommet* arrivee);
 
-    ///Fonction pour dijkstra
-    void reinitialisationGraphe();
-    bool testPassage();
-    Sommet* CalculPlusCoursChemin(std::vector<int> dist, Sommet* s);
-    void dijkstra2(Sommet* depart, Sommet* arrivee);
 };
 
 
