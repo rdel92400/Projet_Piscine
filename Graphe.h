@@ -26,8 +26,10 @@ public:
     void rechercheBFS();
     void BFS(std::string sommet, std::string arrivee, std::string type);
     void affichageBFS(int source, int destination, std::vector<int> parent);
-    void dijkstra(Sommet* depart, Sommet* arrivee);
+    void dijkstra(Sommet* depart, Sommet* arrivee, std::string type);
     void modifTemps(std::string nomFichier, std::string type, int newTemps);
+    void rechercheCheminsDijkstra(std::string type);
+
 
 };
 

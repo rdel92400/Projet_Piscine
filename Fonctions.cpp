@@ -16,8 +16,8 @@ void menu() {
         std::cout << "0 - Quitter" << std::endl;
         std::cout << "1 - Connaitre d'ou part et arrive un trajet" << std::endl;
         std::cout << "2 - Connaitre les trajets/chemins complets arrivant et partant d'un sommet " << std::endl;
-        std::cout << "3 - Connaitre les chemins les plus courts a partir d'un point choisi (Pas fait)" << std::endl;
-        std::cout << "4 - Connaitre l'itineraire le plus rapide entre deux points (Pas fait)" << std::endl;
+        std::cout << "3 - Connaitre les chemins les plus courts issus d'un sommet" << std::endl;
+        std::cout << "4 - Connaitre le chemin le plus rapide entre deux sommets" << std::endl;
         std::cout << "5 - Modifier temps trajets" << std::endl;
 
         std::cout << "\nChoix : ";
@@ -46,8 +46,9 @@ void menu() {
 
             case 3 :
                 //system("cls");
+                g.rechercheCheminsDijkstra("Tous les plus court chemins");
 
-                std::cout << "Pas encore implemente" << std::endl;
+                std::cout << std::endl;
                 std::cout << "0 - Arreter" << std::endl;
                 std::cout << "1 - Retour" << std::endl;
                 std::cin >> choix;
@@ -55,12 +56,9 @@ void menu() {
 
             case 4 :
                 //system("cls");
-                std::cout << "Depart : ";
-                std::cin >> depart;
-                std::cout << "Arrivee : ";
-                std::cin >> arrivee;
-                g.dijkstra(g.getSommet(depart), g.getSommet(arrivee));
+                g.rechercheCheminsDijkstra("Le chemin le plus court");
 
+                std::cout << std::endl;
                 std::cout << "0 - Arreter" << std::endl;
                 std::cout << "1 - Retour" << std::endl;
                 std::cin >> choix;

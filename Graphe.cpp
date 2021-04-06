@@ -252,7 +252,39 @@ void Graphe::affichageBFS(int source, int destination, std::vector<int> parent)
     }
 }
 
-void Graphe::dijkstra(Sommet* depart, Sommet* arrivee)
+void Graphe::rechercheCheminsDijkstra(std::string type)
+{
+    Sommet *sDepart, *sArrivee;
+    std::string depart, arrivee;
+
+    if (type == "Tous les plus court chemins")
+    {
+        std::cout << std::endl << "Choisissez un sommet : ";
+        std::cin >> depart;
+    }
+    if (type == "Le chemin le plus court")
+    {
+        std::cout << std::endl << "Choisissez le sommet de depart : ";
+        std::cin >> depart;
+        std::cout << std::endl << "Choisissez le sommet d'arrivee : ";
+        std::cin >> arrivee;
+    }
+
+    for (const auto elem : m_sommets)
+    {
+        if (elem->getNom() == depart)
+            sDepart = elem;
+        if (elem->getNom() == arrivee)
+            sArrivee = elem;
+    }
+
+    if (type == "Tous les plus court chemins")
+        dijkstra(sDepart,sDepart,"Tous les plus court chemins");
+    if (type == "Le chemin le plus court")
+        dijkstra(sDepart,sArrivee,"Le chemin le plus court");
+}
+
+void Graphe::dijkstra(Sommet* depart, Sommet* arrivee, std::string type)
 {
     std::priority_queue<std::pair<int, int>> file; //numSommet, distance
     std::vector<int> distance (m_ordre+1, 1000);
@@ -267,7 +299,6 @@ void Graphe::dijkstra(Sommet* depart, Sommet* arrivee)
     while (!file.empty())
     {
         int currentSommetV = file.top().first;
-        int currentDistanceW = file.top().second;
         file.pop();
 
         for (auto succ : m_sommets[currentSommetV-1]->getSuccesseurs())
@@ -284,17 +315,27 @@ void Graphe::dijkstra(Sommet* depart, Sommet* arrivee)
         }
     }
 
-    std::cout << "\nTaille du chemin le plus court de " << depart->getNum() << " a " << arrivee->getNum() << " : " << distance[arrivee->getNum()] << std::endl;
-
-    for (int k = 1; k <= m_ordre; k++)
+    //Affichage Dijkstra
+    if (type == "Tous les plus court chemins")
     {
-        std::cout << "De " << depart->getNum() << " a " << k << " (poids : " << distance[k] << ") : " << std::endl;
-        std::cout << k;
-        for (auto p = parent[k]; p!= -1; p = parent[p])
+        std::cout << std::endl << "Voici tous les chemins les plus courts issu du sommet " << depart->getNom() << " :" << std::endl;
+        for (int k = 1; k <= m_ordre; k++)
+        {
+            std::cout << "De " << depart->getNom() << " a " << k << " (Temps : " << distance[k] << " min) : ";
+            std::cout << k;
+            for (auto p = parent[k]; p!= -1; p = parent[p])
+                std::cout << " <- " << p;
+            std::cout << std::endl;
+        }
+    }
+    if (type == "Le chemin le plus court")
+    {
+        std::cout << "\nTemps du chemin le plus rapide de " << depart->getNom() << " a " << arrivee->getNom() << " : " << distance[arrivee->getNum()] << " min" << std::endl;
+        std::cout << "Chemin : " << arrivee->getNum();
+        for (auto p = parent[arrivee->getNum()]; p!= -1; p = parent[p])
             std::cout << " <- " << p;
         std::cout << std::endl;
     }
-    std::cout << std::endl;
 }
 
 int Graphe::getOrdre() {
