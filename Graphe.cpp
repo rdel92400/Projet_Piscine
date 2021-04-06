@@ -251,3 +251,44 @@ void Graphe::affichageBFS(int source, int destination, std::vector<int> parent)
         std::cout << " -> " << destination;
     }
 }
+
+void Graphe::dijkstra(Sommet* depart, Sommet* arrivee) {
+    std::priority_queue<std::pair<int, int>> file; //distance, numSommet
+    std::vector<int> distance;
+    int currentSommet, numSucc, poidsSucc;
+
+    for (int i = 0; i < m_ordre; i++)
+        distance.push_back(1000);
+
+    file.push(std::make_pair(0, depart->getNum()));
+    distance[depart->getNum()] = 0;
+
+    while (!file.empty())
+    {
+        currentSommet = file.top().second;
+        file.pop();
+
+        for (auto succ : m_sommets[currentSommet]->getSuccesseurs())
+        {
+            numSucc = succ.first->getNum();
+            poidsSucc = succ.second->getTps();
+
+            if (distance[numSucc] > distance[currentSommet] + poidsSucc)
+            {
+                std::cout << succ.first->getNum() << " (" << distance[numSucc] << ") "<< " - ";
+                distance[numSucc] = distance[currentSommet] + poidsSucc;
+                file.push(std::make_pair(distance[numSucc], numSucc));
+            }
+        }
+    }
+
+    std::cout << "\nTaille du chemin le plus court de " << depart->getNum() << " a " << arrivee->getNum() << " : " << distance[arrivee->getNum()] << std::endl;
+
+    for (int k = 1; k <= m_ordre; k++)
+        std::cout << "De " << depart->getNum() << " a " << k << " : " << distance[k] << std::endl;
+
+    std::cout << std::endl;
+}
+
+
+

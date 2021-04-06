@@ -14,15 +14,18 @@ private:
     std::vector<Sommet*> m_sommets;
 
 public:
+    ///Constructeur
     Graphe(std::string nomFichier);
     ~Graphe();
-
     Sommet* getSommet(int num);
+
+    ///Autres
     void afficher();
     void rechercheCoord();
     void rechercheBFS();
     void BFS(std::string sommet, std::string arrivee, std::string type);
     void affichageBFS(int source, int destination, std::vector<int> parent);
+    void dijkstra(Sommet* depart, Sommet* arrivee);
 };
 
 

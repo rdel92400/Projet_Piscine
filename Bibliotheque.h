@@ -10,6 +10,8 @@
 #include <fstream>
 #include <algorithm>
 #include <windows.h>
+#include <queue>
+#include <list>
 
 
 #endif //PROJET_BIBLIOTHEQUE_H

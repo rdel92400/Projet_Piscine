@@ -3,6 +3,7 @@
 
 void menu() {
 
+    int depart, arrivee;
     int choix;
     Graphe g{"chargement.txt"};
     //g.afficher();
@@ -50,8 +51,13 @@ void menu() {
                 break;
 
             case 4 :
-                system("cls");
-                std::cout << "Pas encore implemente" << std::endl;
+                //system("cls");
+                std::cout << "Depart : ";
+                std::cin >> depart;
+                std::cout << "Arrivee : ";
+                std::cin >> arrivee;
+                g.dijkstra(g.getSommet(depart), g.getSommet(arrivee));
+
                 std::cout << "0 - Arreter" << std::endl;
                 std::cout << "1 - Retour" << std::endl;
                 std::cin >> choix;
