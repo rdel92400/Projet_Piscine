@@ -5,7 +5,7 @@ void menu() {
 
     int depart, arrivee;
     int choix;
-    Graphe g{"chargementV2.txt"};
+    Graphe g{"chargement.txt"};
     //g.afficher();
 
     do {
@@ -114,7 +114,7 @@ int calculTps(std::string type, Sommet* s1, Sommet* s2, std::vector<std::pair<st
     if (alt < 0)
         alt = -alt;
 
-    tpsTot = tps + (alt/100)*tpsprop;
+    tpsTot = tps + (alt*tpsprop)/100;
 
     return tpsTot;
 }

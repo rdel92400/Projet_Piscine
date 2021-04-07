@@ -117,7 +117,7 @@ void Graphe::rechercheCoord() {
         {
            if (s2.second->getNom() == trajet)
            {
-               std::cout << std::endl << "Ce trajet est de type " << s2.second->getType() << std::endl;
+               std::cout << std::endl << "Ce trajet est de type " << s2.second->getType() << " et dure: " << s2.second->getTps() << std::endl;
                std::cout << "Le trajet " << trajet << " part du sommet " << s->getNom() << " (" << s->getNum() << ") " << std::endl
                          << "Le trajet " << trajet << " arrive au sommet " << s2.first->getNom() << " (" << s2.first->getNum() << ") " << std::endl;
                test = false;
@@ -286,9 +286,12 @@ void Graphe::rechercheCheminsDijkstra(std::string type)
 
 void Graphe::dijkstra(Sommet* depart, Sommet* arrivee, std::string type)
 {
+    int bl = 0;
+    int tpm;
     std::priority_queue<std::pair<int, int>> file; //numSommet, distance
     std::vector<int> distance (m_ordre+1, 1000);
     std::vector<int> parent (m_ordre+1, -1);
+    std::vector<std::pair <int, int>> parent2;
 
     for (int i = 0; i < m_ordre+1; i++)
         distance.push_back(1000);
@@ -299,20 +302,24 @@ void Graphe::dijkstra(Sommet* depart, Sommet* arrivee, std::string type)
     while (!file.empty())
     {
         int currentSommetV = file.top().first;
+        int currentNum = file.top().second;
         file.pop();
 
-        for (auto succ : m_sommets[currentSommetV-1]->getSuccesseurs())
-        {
-            int numSuccV2 = succ.first->getNum();
-            int poidsSuccW2 = succ.second->getTps();
-
-            if (distance[numSuccV2] > distance[currentSommetV] + poidsSuccW2)
+        if (currentNum  <= distance[currentSommetV]){
+            for (auto succ : m_sommets[currentSommetV-1]->getSuccesseurs())
             {
-                distance[numSuccV2] = distance[currentSommetV] + poidsSuccW2;
-                parent[numSuccV2] = currentSommetV;
-                file.push(std::make_pair(numSuccV2, distance[numSuccV2]));
+                int numSuccV2 = succ.first->getNum();
+                int poidsSuccW2 = succ.second->getTps();
+
+                if (distance[numSuccV2] > distance[currentSommetV] + poidsSuccW2)
+                {
+                    distance[numSuccV2] = distance[currentSommetV] + poidsSuccW2;
+                    parent[numSuccV2] = currentSommetV;
+                    file.push(std::make_pair(numSuccV2, distance[numSuccV2]));
+                }
             }
         }
+
     }
 
     //Affichage Dijkstra
@@ -332,8 +339,22 @@ void Graphe::dijkstra(Sommet* depart, Sommet* arrivee, std::string type)
     {
         std::cout << "\nTemps du chemin le plus rapide de " << depart->getNom() << " a " << arrivee->getNom() << " : " << distance[arrivee->getNum()] << " min" << std::endl;
         std::cout << "Chemin : " << arrivee->getNum();
-        for (auto p = parent[arrivee->getNum()]; p!= -1; p = parent[p])
+
+        for (auto p = parent[arrivee->getNum()]; p!= -1; p = parent[p]) {
+            /*
+            if (bl != 0) {
+                parent2.push_back(std::make_pair(tpm, p));
+            }
+             */
             std::cout << " <- " << p;
+            //tpm = p;
+            //bl++;
+        }
+        /*std::cout << "\nChemin 2: " << arrivee->getNom();
+        for (auto elem : parent2){
+            std::cout << " <- " <<m_sommets[elem.first]->getSuccesseurs()[elem.second].second->getNom();
+        }
+*/
         std::cout << std::endl;
     }
 }
