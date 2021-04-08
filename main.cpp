@@ -2,8 +2,13 @@
 #include "Fonctions.h"
 #include "Graphe.h"
 
+void menu(Graphe g);
+
+
 int main()
 {
-    menu();
+    Graphe g{"chargement.txt"};
+    menu(g);
     return 0;
 }
+

@@ -4,6 +4,7 @@
 #include "Bibliotheque.h"
 #include "Fonctions.h"
 #include "Sommet.h"
+#include "TempsTrajets.h"
 
 
 class Graphe {
@@ -13,6 +14,7 @@ private:
     int m_taille;
     std::vector<Sommet*> m_sommets;
     int getOrdre();
+    TempsTrajets m_tempsTrajets;
 
 public:
     ///Constructeur
@@ -27,9 +29,14 @@ public:
     void BFS(std::string sommet, std::string arrivee, std::string type);
     void affichageBFS(int source, int destination, std::vector<int> parent);
     void dijkstra(Sommet* depart, Sommet* arrivee, std::string type);
-    void modifTemps(std::string nomFichier, std::string type, int newTemps);
     void rechercheCheminsDijkstra(std::string type);
 
+    ///Setters
+    void setTempsTrajets(TempsTrajets trajetTempo);
+
+    ///Getters
+
+    TempsTrajets getTempsTrajets();
 
 };
 
