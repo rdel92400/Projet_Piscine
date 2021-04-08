@@ -100,7 +100,6 @@ void Graphe::afficher()
                         << "Temps : " << s2.second->getTps() << std::endl
                         << "Type : " << s2.second->getType() << std::endl
                         << "Nom : " << s2.second->getNom() << std::endl << std::endl;
-
         }
         std::cout << std::endl;
     }
@@ -108,33 +107,58 @@ void Graphe::afficher()
 
 void Graphe::rechercheCoord() {
     bool test = true;
+    bool condition = false;
     std::string trajet;
-    std::cout << std::endl << "Choisissez un trajet : ";
-    std::cin >> trajet;
+
+    do {
+        std::cout << std::endl << "Choisissez un trajet : ";
+        std::cin >> trajet;
+
+        for (const auto s : m_sommets)
+            for (const auto& s2 : s->getSuccesseurs())
+                if (s2.second->getNom() == trajet)
+                    condition = true;
+
+        if (!condition)
+            std::cout << std::endl << "Ce trajet n'existe pas, veuillez en choisir un autre." << std::endl;
+
+    } while (!condition);
+
     for (const auto s : m_sommets)
     {
         for (const auto& s2 : s->getSuccesseurs())
         {
            if (s2.second->getNom() == trajet)
            {
-               std::cout << std::endl << "Ce trajet est de type " << s2.second->getType() << " et dure: " << s2.second->getTps() << std::endl;
-               std::cout << "Le trajet " << trajet << " part du sommet " << s->getNom() << " (" << s->getNum() << ") " << std::endl
-                         << "Le trajet " << trajet << " arrive au sommet " << s2.first->getNom() << " (" << s2.first->getNum() << ") " << std::endl;
+               std::cout << std::endl << "Ce trajet est de type " << s2.second->getType() << " et dure " << s2.second->getTps() << " min" << std::endl;
+               std::cout << "Le trajet " << trajet << " part du sommet " << s->getNom() << " (Altitude : " << s->getAlt() << ", Num : " << s->getNum() << ") " << std::endl
+                         << "Le trajet " << trajet << " arrive au sommet " << s2.first->getNom() << " (Altitude : " << s2.first->getAlt() << ", Num : " << s2.first->getNum() << ") " << std::endl;
                test = false;
            }
         }
     }
-    if (test == true){
+    if (test){
         std::cout << "Ce trajet n'existe pas" << std::endl;
     }
 }
 
 void Graphe::rechercheBFS()
 {
+    bool condition = false;
     std::string sommet;
 
-    std::cout << std::endl << "Choisissez un sommet : ";
-    std::cin >> sommet;
+    do {
+        std::cout << std::endl << "Choisissez un sommet : ";
+        std::cin >> sommet;
+
+        for (const auto s : m_sommets)
+                if (s->getNom() == sommet)
+                    condition = true;
+
+        if (!condition)
+            std::cout << std::endl << "Ce sommet n'existe pas, veuillez en choisir un autre." << std::endl;
+
+    } while (!condition);
 
     //Recherche des arretes qui partent du sommet
     std::cout << std::endl << "Trajets qui partent du sommet " << sommet << " : " << std::endl;
@@ -145,9 +169,9 @@ void Graphe::rechercheBFS()
             for (const auto& s2 : s->getSuccesseurs())
             {
                 if (s->getAlt() > s2.first->getAlt())
-                    std::cout << "Descente : " << s2.second->getNom() << " (type : " << s2.second->getType() << ", num : " << s2.second->getNum() << ")\n";
+                    std::cout << "Descente : " << s2.second->getNom() << " (type : " << s2.second->getType() << ", temps : " << s2.second->getTps() << ", num : " << s2.second->getNum() << ")\n";
                 if (s->getAlt() < s2.first->getAlt())
-                    std::cout << "Remontee : " << s2.second->getNom() << " (type : " << s2.second->getType() << ", num : " << s2.second->getNum() << ")\n";
+                    std::cout << "Remontee : " << s2.second->getNom() << " (type : " << s2.second->getType() << ", temps : " << s2.second->getTps() << ", num : " << s2.second->getNum() << ")\n";
             }
         }
     }
@@ -161,9 +185,9 @@ void Graphe::rechercheBFS()
             if (s2.first->getNom() == sommet)
             {
                 if (s->getAlt() > s2.first->getAlt())
-                    std::cout << "Descente : " << s2.second->getNom() << " (type : " << s2.second->getType() << ", num : " << s2.second->getNum() << ")\n";
+                    std::cout << "Descente : " << s2.second->getNom() << " (type : " << s2.second->getType() << ", temps : " << s2.second->getTps() << ", num : " << s2.second->getNum() << ")\n";
                 if (s->getAlt() < s2.first->getAlt())
-                    std::cout << "Remontee : " << s2.second->getNom() << " (type : " << s2.second->getType() << ", num : " << s2.second->getNum() << ")\n";
+                    std::cout << "Remontee : " << s2.second->getNom() << " (type : " << s2.second->getType() << ", temps : " << s2.second->getTps() << ", num : " << s2.second->getNum() << ")\n";
             }
         }
     }
@@ -256,18 +280,52 @@ void Graphe::rechercheCheminsDijkstra(std::string type)
 {
     Sommet *sDepart, *sArrivee;
     std::string depart, arrivee;
+    bool condition = false;
 
     if (type == "Tous les plus court chemins")
     {
-        std::cout << std::endl << "Choisissez un sommet : ";
-        std::cin >> depart;
+        do {
+            std::cout << std::endl << "Choisissez un sommet : ";
+            std::cin >> depart;
+
+            for (const auto s : m_sommets)
+                if (s->getNom() == depart)
+                    condition = true;
+
+            if (!condition)
+                std::cout << std::endl << "Ce sommet n'existe pas, veuillez en choisir un autre." << std::endl;
+
+        } while (!condition);
     }
     if (type == "Le chemin le plus court")
     {
-        std::cout << std::endl << "Choisissez le sommet de depart : ";
-        std::cin >> depart;
-        std::cout << std::endl << "Choisissez le sommet d'arrivee : ";
-        std::cin >> arrivee;
+        do {
+            std::cout << std::endl << "Choisissez le sommet de depart : ";
+            std::cin >> depart;
+
+            for (const auto s : m_sommets)
+                if (s->getNom() == depart)
+                    condition = true;
+
+            if (!condition)
+                std::cout << std::endl << "Ce sommet n'existe pas, veuillez en choisir un autre." << std::endl;
+
+        } while (!condition);
+
+        condition = false;
+
+        do {
+            std::cout << std::endl << "Choisissez le sommet d'arrivee : ";
+            std::cin >> arrivee;
+
+            for (const auto s : m_sommets)
+                if (s->getNom() == arrivee)
+                    condition = true;
+
+            if (!condition)
+                std::cout << std::endl << "Ce sommet n'existe pas, veuillez en choisir un autre." << std::endl;
+
+        } while (!condition);
     }
 
     for (const auto elem : m_sommets)
@@ -319,7 +377,6 @@ void Graphe::dijkstra(Sommet* depart, Sommet* arrivee, std::string type)
                 }
             }
         }
-
     }
 
     //Affichage Dijkstra
@@ -340,21 +397,24 @@ void Graphe::dijkstra(Sommet* depart, Sommet* arrivee, std::string type)
         std::cout << "\nTemps du chemin le plus rapide de " << depart->getNom() << " a " << arrivee->getNom() << " : " << distance[arrivee->getNum()] << " min" << std::endl;
         std::cout << "Chemin : " << arrivee->getNum();
 
-        for (auto p = parent[arrivee->getNum()]; p!= -1; p = parent[p]) {
-            /*
-            if (bl != 0) {
-                parent2.push_back(std::make_pair(tpm, p));
+        for (auto p = parent[arrivee->getNum()]; p!= -1; p = parent[p])
+        {
+            if (bl != 0)
+            {
+                //parent2.push_back(std::make_pair(tpm, p));
             }
-             */
             std::cout << " <- " << p;
             //tpm = p;
             //bl++;
         }
-        /*std::cout << "\nChemin 2: " << arrivee->getNom();
-        for (auto elem : parent2){
+        /*
+        std::cout << "\nChemin 2: " << arrivee->getNom();
+        for (auto elem : parent2)
+        {
             std::cout << " <- " <<m_sommets[elem.first]->getSuccesseurs()[elem.second].second->getNom();
         }
-*/
+         */
+
         std::cout << std::endl;
     }
 }
