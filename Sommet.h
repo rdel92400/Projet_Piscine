@@ -27,7 +27,7 @@ public:
     ///Accesseur
     void setNom(std::string nom);
     void setAlt(int alt);
-    void ajouterSuccesseurs(Sommet* s, int tps, std::string type, int num, std::string nom);
+    void ajouterSuccesseurs(Sommet* s, float tps, std::string type, int num, std::string nom);
     ///Autres
 
 };

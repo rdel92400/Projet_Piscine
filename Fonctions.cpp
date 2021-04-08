@@ -77,9 +77,9 @@ void menu() {
 
 
 
-int calculTps(std::string type, Sommet* s1, Sommet* s2, std::vector<std::pair<std::string, std::pair<int, int>>> tabRemontees, std::vector<std::pair<std::string, int>> tabDescentes)
+float calculTps(std::string type, Sommet* s1, Sommet* s2, std::vector<std::pair<std::string, std::pair<int, int>>> tabRemontees, std::vector<std::pair<std::string, int>> tabDescentes)
 {
-    int alt, tpsprop(0), tps(0), tpsTot;
+    float alt, tpsprop(0), tps(0), tpsTot;
 
     alt = s2->getAlt() - s1->getAlt();
 

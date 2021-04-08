@@ -32,11 +32,11 @@ void Arrete::setNom(std::string nom) {
     m_nom = nom;
 }
 
-void Arrete::setTps(int tps) {
+void Arrete::setTps(float tps) {
     m_tps = tps;
 }
 
-int Arrete::getTps() const {
+float Arrete::getTps() const {
     return m_tps;
 }
 

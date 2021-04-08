@@ -28,7 +28,7 @@ void Sommet::setAlt(int alt) {
     m_alt = alt;
 }
 
-void Sommet::ajouterSuccesseurs(Sommet *s, int tps, std::string type, int num, std::string nom) {
+void Sommet::ajouterSuccesseurs(Sommet *s, float tps, std::string type, int num, std::string nom) {
     Arrete* tpm = new Arrete;
     tpm->setNum(num);
     tpm->setNom(nom);

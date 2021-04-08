@@ -346,8 +346,8 @@ void Graphe::dijkstra(Sommet* depart, Sommet* arrivee, std::string type)
 {
     int bl = 0;
     int tpm;
-    std::priority_queue<std::pair<int, int>> file; //numSommet, distance
-    std::vector<int> distance (m_ordre+1, 1000);
+    std::priority_queue<std::pair<int, float>> file; //numSommet, distance
+    std::vector<float> distance (m_ordre+1, 1000);
     std::vector<int> parent (m_ordre+1, -1);
     std::vector<std::pair <int, int>> parent2;
 
@@ -360,14 +360,14 @@ void Graphe::dijkstra(Sommet* depart, Sommet* arrivee, std::string type)
     while (!file.empty())
     {
         int currentSommetV = file.top().first;
-        int currentNum = file.top().second;
+        float currentNum = file.top().second;
         file.pop();
 
         if (currentNum  <= distance[currentSommetV]){
             for (auto succ : m_sommets[currentSommetV-1]->getSuccesseurs())
             {
                 int numSuccV2 = succ.first->getNum();
-                int poidsSuccW2 = succ.second->getTps();
+                float poidsSuccW2 = succ.second->getTps();
 
                 if (distance[numSuccV2] > distance[currentSommetV] + poidsSuccW2)
                 {
