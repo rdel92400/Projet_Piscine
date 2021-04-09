@@ -18,7 +18,9 @@ void menu() {
         std::cout << "2 - Connaitre les trajets/chemins complets arrivant et partant d'un sommet " << std::endl;
         std::cout << "3 - Connaitre les chemins les plus courts issus d'un sommet" << std::endl;
         std::cout << "4 - Connaitre le chemin le plus rapide entre deux sommets" << std::endl;
-        std::cout << "5 - Modifier temps trajets" << std::endl;
+        std::cout << "5 - OPTIMISATION : Connaitre le chemin le plus rapide entre deux sommets avec les preferences" << std::endl;
+        std::cout << "6 - Modifier les temps des trajets" << std::endl;
+        std::cout << "7 - Modifier les preferences des trajets" << std::endl;
 
         std::cout << "\nChoix : ";
         std::cin >> choix;
@@ -66,8 +68,32 @@ void menu() {
 
             case 5 :
                 //system("cls");
-                std::cout << "Blabla" << std::endl;
-                g.modifTemps("chargementV2.txt","TK",8);
+                g.rechercheCheminsDijkstra("Le chemin le plus court avec preferences");
+
+                std::cout << std::endl;
+                std::cout << "0 - Arreter" << std::endl;
+                std::cout << "1 - Retour" << std::endl;
+                std::cin >> choix;
+                break;
+
+            case 6 :
+                //system("cls");
+                g.modifTemps();
+
+                std::cout << std::endl;
+                std::cout << "0 - Arreter" << std::endl;
+                std::cout << "1 - Retour" << std::endl;
+                std::cin >> choix;
+                break;
+
+            case 7 :
+                //system("cls");
+                g.modifPrefs();
+
+                std::cout << std::endl;
+                std::cout << "0 - Arreter" << std::endl;
+                std::cout << "1 - Retour" << std::endl;
+                std::cin >> choix;
                 break;
         }
     } while (choix != 0);
@@ -77,7 +103,7 @@ void menu() {
 
 
 
-float calculTps(std::string type, Sommet* s1, Sommet* s2, std::vector<std::pair<std::string, std::pair<int, int>>> tabRemontees, std::vector<std::pair<std::string, int>> tabDescentes)
+float calculTps(std::string type, Sommet* s1, Sommet* s2, std::vector<std::pair<std::string, std::pair<float, float>>> tabRemontees, std::vector<std::pair<std::string, float>> tabDescentes)
 {
     float alt, tpsprop(0), tps(0), tpsTot;
 

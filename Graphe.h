@@ -13,6 +13,11 @@ private:
     int m_taille;
     std::vector<Sommet*> m_sommets;
     int getOrdre();
+    std::string m_nom;
+    std::string m_mdp;
+    std::vector<std::string> m_pref;
+    std::vector<std::pair<std::string, std::pair<float, float>>> m_tabRemontees;
+    std::vector<std::pair<std::string, float>> m_tabDescentes;
 
 public:
     ///Constructeur
@@ -27,10 +32,11 @@ public:
     void BFS(std::string sommet, std::string arrivee, std::string type);
     void affichageBFS(int source, int destination, std::vector<int> parent);
     void dijkstra(Sommet* depart, Sommet* arrivee, std::string type);
-    void modifTemps(std::string nomFichier, std::string type, int newTemps);
+    void dijkstraPref(Sommet* depart, Sommet* arrivee);
+    void modifTemps();
+    void modifPrefs();
     void rechercheCheminsDijkstra(std::string type);
-
-
+    void afficherInfosTrajets();
 };
 
 
