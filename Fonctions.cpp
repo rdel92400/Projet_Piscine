@@ -9,25 +9,29 @@ void menu() {
     //g.afficher();
 
     do {
-        std::cout << " //////////////////// Bienvenue a la borne interactive des Arcs ! \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\" << std::endl;
+        do {
+            system("cls");
+            std::cout << "\n//////////////////// Bienvenue a la borne interactive des Arcs ! \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ \n" << std::endl;
 
-        std::cout << "Que voulez-vous faire ?" << std::endl;
+            std::cout << "Que voulez-vous faire " << g.getNom() << " ?" <<std::endl;
+            std::cout << "1 - Connaitre d'ou part et arrive un trajet" << std::endl;
+            std::cout << "2 - Connaitre les trajets/chemins complets arrivant et partant d'un sommet " << std::endl;
+            std::cout << "3 - Connaitre les chemins les plus courts issus d'un sommet" << std::endl;
+            std::cout << "4 - Connaitre le chemin le plus rapide entre deux sommets" << std::endl;
+            std::cout << "5 - OPTIMISATION : Connaitre le chemin le plus rapide entre deux sommets avec les preferences" << std::endl;
+            std::cout << "6 - EXTENSION : Connaitre le chemin optimiser pour arriver à la pose déjeuner" << std::endl;
+            std::cout << "7 - Modifier les temps des trajets" << std::endl;
+            std::cout << "8 - Modifier les preferences des trajets" << std::endl;
+            std::cout << "9 - Afficher le graphe" << std::endl;
+            std::cout << "0 - Quitter" << std::endl;
 
-        std::cout << "0 - Quitter" << std::endl;
-        std::cout << "1 - Connaitre d'ou part et arrive un trajet" << std::endl;
-        std::cout << "2 - Connaitre les trajets/chemins complets arrivant et partant d'un sommet " << std::endl;
-        std::cout << "3 - Connaitre les chemins les plus courts issus d'un sommet" << std::endl;
-        std::cout << "4 - Connaitre le chemin le plus rapide entre deux sommets" << std::endl;
-        std::cout << "5 - OPTIMISATION : Connaitre le chemin le plus rapide entre deux sommets avec les preferences" << std::endl;
-        std::cout << "6 - Modifier les temps des trajets" << std::endl;
-        std::cout << "7 - Modifier les preferences des trajets" << std::endl;
+            std::cout << "\nChoix : ";
+            std::cin >> choix;
+        } while (choix>9 || choix<0);
 
-        std::cout << "\nChoix : ";
-        std::cin >> choix;
 
         switch (choix) {
             case 1 :
-                //system("cls");
                 g.rechercheCoord();
 
                 std::cout << std::endl;
@@ -37,7 +41,6 @@ void menu() {
                 break;
 
             case 2 :
-                //system("cls");
                 g.rechercheBFS();
 
                 std::cout << std::endl;
@@ -47,7 +50,6 @@ void menu() {
                 break;
 
             case 3 :
-                //system("cls");
                 g.rechercheCheminsDijkstra("Tous les plus court chemins");
 
                 std::cout << std::endl;
@@ -57,7 +59,6 @@ void menu() {
                 break;
 
             case 4 :
-                //system("cls");
                 g.rechercheCheminsDijkstra("Le chemin le plus court");
 
                 std::cout << std::endl;
@@ -67,7 +68,6 @@ void menu() {
                 break;
 
             case 5 :
-                //system("cls");
                 g.rechercheCheminsDijkstra("Le chemin le plus court avec preferences");
 
                 std::cout << std::endl;
@@ -77,7 +77,15 @@ void menu() {
                 break;
 
             case 6 :
-                //system("cls");
+
+                std::cout << "Zebi" << std::endl;
+                std::cout << std::endl;
+                std::cout << "0 - Arreter" << std::endl;
+                std::cout << "1 - Retour" << std::endl;
+                std::cin >> choix;
+                break;
+
+            case 7 :
                 g.modifTemps();
 
                 std::cout << std::endl;
@@ -86,9 +94,18 @@ void menu() {
                 std::cin >> choix;
                 break;
 
-            case 7 :
-                //system("cls");
+            case 8 :
                 g.modifPrefs();
+
+                std::cout << std::endl;
+                std::cout << "0 - Arreter" << std::endl;
+                std::cout << "1 - Retour" << std::endl;
+                std::cin >> choix;
+                break;
+
+            case 9 :
+                g.afficher();
+                g.afficherInfosTrajets();
 
                 std::cout << std::endl;
                 std::cout << "0 - Arreter" << std::endl;
@@ -98,9 +115,7 @@ void menu() {
         }
     } while (choix != 0);
 
-
 }
-
 
 
 float calculTps(std::string type, Sommet* s1, Sommet* s2, std::vector<std::pair<std::string, std::pair<float, float>>> tabRemontees, std::vector<std::pair<std::string, float>> tabDescentes)

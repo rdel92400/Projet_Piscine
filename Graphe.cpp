@@ -6,6 +6,9 @@ Graphe::Graphe(std::string nomFichier)
     bool condition = false;
     bool conditionMdp = false;
 
+    std::cout << "\n///Bienvenue sur la borne interactive des Arcs !\\\\\\" << std::endl << std::endl;
+    std::cout << "Connectez-vous, saisissez vos identifiants : " << std::endl << std::endl;
+
     ///Saisie du login
     do {
         std::cout << "Login : ";
@@ -31,7 +34,7 @@ Graphe::Graphe(std::string nomFichier)
         ifs2 >> mdpBon;
         m_mdp = mdpBon;
 
-        std::cout << "Mdp : ";
+        std::cout << "Mot de passe : ";
         std::cin >> mdp;
         if (mdp != mdpBon)
             std::cout << "le mot de passe " << mdp << " n'est pas bon." << std::endl;
@@ -118,7 +121,7 @@ Graphe::Graphe(std::string nomFichier)
         m_sommets[s1-1]->ajouterSuccesseurs(m_sommets[s2-1],calculTps(nom2,m_sommets[s1-1],m_sommets[s2-1],m_tabRemontees,m_tabDescentes),nom2,numArrete,nom1);
     }
 
-    afficherInfosTrajets();
+    //afficherInfosTrajets();
 }
 
 Graphe::~Graphe() {}
@@ -138,10 +141,11 @@ Sommet* Graphe::getSommet(int num)
 void Graphe::afficher()
 {
     std::cout << "Affichage sommets :\n" << std::endl;
-    for (const auto s : m_sommets)
-    {
-        std::cout << "Sommet " << s->getNum() << " : " << s->getNom() << " altitude : " << s->getAlt() << std::endl;
+
+    for (int i=0; i<m_sommets.size(); i++){
+        std::cout << "Sommet: " << m_sommets[i]->getNum() << " \t Nom : " << m_sommets[i]->getNom() << " \t Altitude : " << m_sommets[i]->getAlt() << std::endl;
     }
+
 
     int i(1);
     std::cout << std::endl << "Affichage arretes :\n" << std::endl;
@@ -685,7 +689,7 @@ void Graphe::modifTemps()
     for (auto elem : m_tabDescentes)
         ifs << elem.first << "\t" << elem.second << std::endl;
 
-    ifs << std::endl << m_pref[1]  << " " << m_pref[2] << " " <<m_pref[3];
+    ifs << std::endl << m_pref[0]  << " " << m_pref[1] << " " <<m_pref[2];
 
     ifs.close();
 
@@ -741,72 +745,12 @@ void Graphe::afficherInfosTrajets()
     for (auto elem : m_tabDescentes)
         std::cout << elem.first << "\t" << elem.second << std::endl;
     std::cout << std::endl;
+
+    std::cout << m_pref[0] << " " << m_pref[1] << " " << m_pref[2] << std::endl;
+
 }
 
-/*
-void Graphe::modifTemps(std::string nomFichier, std::string typeTransport, int newTemps) {
-    std::ofstream ifs(nomFichier.c_str(), std::ios::app);
-    if (!ifs)
-        throw std::runtime_error( "Impossible d'ouvrir le fichier " + nomFichier );
-    ifs << m_ordre;
-    if (ifs.fail())
-        throw std::runtime_error("Probleme lecture ordre du graphe");
-
-    //Chargement sommets
-    int num1, num3;
-    std::string num2;
-    for (int i = 0; i < m_ordre; i++)
-    {
-        m_sommets.push_back(new Sommet{ i+1});
-        ifs << num1 << num2 << num3;
-        if (ifs.fail())
-            throw std::runtime_error("Probleme chargement donnees sommets");
-        m_sommets[i]->setNom(num2);
-        m_sommets[i]->setAlt(num3);
-    }
-
-    //Chargement des types et des temps des arretes
-    std::string var1, var2;
-    float temp1, temp2, n1, n2, n3;
-    ifs << temp1;
-    std::vector<std::pair<std::string, std::pair<int, int>>> tabRemontees (temp1);
-    if (ifs.fail())
-        throw std::runtime_error("Probleme lecture nb de remontees");
-    for (int i = 0; i < temp1; i++)
-    {
-        ifs << var1 << n1 << n2;
-        if (ifs.fail())
-            throw std::runtime_error("Probleme chargement remontees");
-        tabRemontees[i].first = var1;
-        tabRemontees[i].second.first = n1;
-        tabRemontees[i].second.second = n2;
-    }
-    ifs << temp2;
-    std::vector<std::pair<std::string, int>> tabDescentes (temp2);
-    if (ifs.fail())
-        throw std::runtime_error("Probleme lecture nb de descentes");
-    for (int i = 0; i < temp2; i++)
-    {
-        ifs << var2 << n3;
-        if (ifs.fail())
-            throw std::runtime_error("Probleme chargement descentes");
-        tabDescentes[i].first = var2;
-        tabDescentes[i].second = n3;
-    }
-
-    ifs << m_taille;
-    if (ifs.fail())
-        throw std::runtime_error("Probleme lecture taille du graphe");
-
-    //Chargement arretes
-    int numArrete, s1, s2;
-    std::string nom1, nom2;
-    for (int i = 0; i < m_taille; i++)
-    {
-        ifs << numArrete << nom1 << nom2 << s1 << s2;
-        if (ifs.fail())
-            throw std::runtime_error("Probleme chargement donnees arretes");
-        m_sommets[s1-1]->ajouterSuccesseurs(m_sommets[s2-1],calculTps(nom2,m_sommets[s1-1],m_sommets[s2-1],tabRemontees,tabDescentes),nom2,numArrete,nom1);
-    }
+std::string Graphe::getNom() {
+    return m_nom;
 }
-*/
+

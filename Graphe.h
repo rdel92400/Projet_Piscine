@@ -24,6 +24,7 @@ public:
     Graphe(std::string nomFichier);
     ~Graphe();
     Sommet* getSommet(int num);
+    std::string getNom();
 
     ///Autres
     void afficher();
