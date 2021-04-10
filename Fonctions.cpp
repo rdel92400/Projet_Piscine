@@ -21,12 +21,13 @@ void menu() {
             std::cout << "6 - EXTENSION : Connaitre le chemin optimiser pour arriver à la pose déjeuner" << std::endl;
             std::cout << "7 - Modifier les temps des trajets" << std::endl;
             std::cout << "8 - Modifier les preferences des trajets" << std::endl;
-            std::cout << "9 - Afficher le graphe" << std::endl;
+            std::cout << "9 - Creer un nouveau profil" << std::endl;
+            std::cout << "10 - Afficher le graphe" << std::endl;
             std::cout << "0 - Quitter" << std::endl;
 
             std::cout << "\nChoix : ";
             std::cin >> choix;
-        } while (choix>9 || choix<0);
+        } while (choix>10 || choix<0);
 
 
         switch (choix) {
@@ -103,6 +104,13 @@ void menu() {
                 break;
 
             case 9 :
+                g.ajoutProfil();
+                std::cout << std::endl;
+                std::cout << "0 - Pour se reconnecter" << std::endl;
+                std::cin >> choix;
+                break;
+
+            case 10 :
                 g.afficher();
                 g.afficherInfosTrajets();
 

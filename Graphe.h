@@ -12,7 +12,7 @@ private:
     int m_ordre;
     int m_taille;
     std::vector<Sommet*> m_sommets;
-    int getOrdre();
+
     std::string m_nom;
     std::string m_mdp;
     std::vector<std::string> m_pref;
@@ -25,7 +25,7 @@ public:
     ~Graphe();
     Sommet* getSommet(int num);
     std::string getNom();
-
+    int getOrdre();
     ///Autres
     void afficher();
     void rechercheCoord();
@@ -40,6 +40,7 @@ public:
     void modifPrefs();
     void rechercheCheminsDijkstra(std::string type);
     void afficherInfosTrajets();
+    void ajoutProfil();
 };
 
 

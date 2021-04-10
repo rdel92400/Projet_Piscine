@@ -3,125 +3,156 @@
 Graphe::Graphe(std::string nomFichier)
 {
     std::string fichierPerso;
+    int choix;
     bool condition = false;
     bool conditionMdp = false;
 
     std::cout << "\n///Bienvenue sur la borne interactive des Arcs !\\\\\\" << std::endl << std::endl;
     std::cout << "Connectez-vous, saisissez vos identifiants : " << std::endl << std::endl;
 
-    ///Saisie du login
-    do {
-        std::cout << "Login : ";
-        std::cin >> fichierPerso;
-        fichierPerso += ".txt";
-        m_nom = fichierPerso;
+        ///Saisie du login
+        do {
+            std::cout << "Login : ";
+            std::cin >> fichierPerso;
+            fichierPerso += ".txt";
+            m_nom = fichierPerso;
 
-        std::ifstream ifsTemp{ fichierPerso };
-        if (!ifsTemp)
-            std::cout << "L'utilisateur " << fichierPerso << " n'existe pas." << std::endl;
-        else
-            condition = true;
+            std::ifstream ifsTemp{ fichierPerso };
+            if (!ifsTemp)
+                std::cout << "L'utilisateur " << fichierPerso << " n'existe pas." << std::endl;
+            else
+                condition = true;
 
-    } while (!condition);
+        } while (!condition);
 
-    ///Ouverture fichier perso
-    std::ifstream ifs2{ fichierPerso };
-    std::string mdpBon, mdp;
+        ///Ouverture fichier perso
+        std::ifstream ifs2{ fichierPerso };
+        std::string mdpBon, mdp;
 
-    ///Verification MDP
-    do {
-        ifs2.seekg(0, std::ios::beg);
-        ifs2 >> mdpBon;
-        m_mdp = mdpBon;
+        ///Verification MDP
+        do {
+            ifs2.seekg(0, std::ios::beg);
+            ifs2 >> mdpBon;
+            m_mdp = mdpBon;
 
-        std::cout << "Mot de passe : ";
-        std::cin >> mdp;
-        if (mdp != mdpBon)
-            std::cout << "le mot de passe " << mdp << " n'est pas bon." << std::endl;
-        else
-            conditionMdp = true;
+            std::cout << "Mot de passe : ";
+            std::cin >> mdp;
+            if (mdp != mdpBon)
+                std::cout << "le mot de passe " << mdp << " n'est pas bon." << std::endl;
+            else
+                conditionMdp = true;
 
-    } while (!conditionMdp);
+        } while (!conditionMdp);
 
-    ///Chargement des types et des temps des arretes
-    std::string var1, var2;
-    float temp1, temp2, n1, n2, n3;
-    ifs2 >> temp1;
-    if (ifs2.fail())
-        throw std::runtime_error("Probleme lecture nb de remontees");
-    for (int i = 0; i < temp1; i++)
-        m_tabRemontees.push_back(std::make_pair("",std::make_pair(0,0)));
-    for (int i = 0; i < temp1; i++)
-    {
-        ifs2 >> var1 >> n1 >> n2;
+        ///Chargement des types et des temps des arretes
+        std::string var1, var2;
+        float temp1, temp2, n1, n2, n3;
+        ifs2 >> temp1;
         if (ifs2.fail())
-            throw std::runtime_error("Probleme chargement remontees");
-        m_tabRemontees[i].first = var1;
-        m_tabRemontees[i].second.first = n1;
-        m_tabRemontees[i].second.second = n2;
-    }
-    ifs2 >> temp2;
-    if (ifs2.fail())
-        throw std::runtime_error("Probleme lecture nb de descentes");
-    for (int i = 0; i < temp2; i++)
-        m_tabDescentes.push_back(std::make_pair("",0));
-    for (int i = 0; i < temp2; i++)
-    {
-        ifs2 >> var2 >> n3;
+            throw std::runtime_error("Probleme lecture nb de remontees");
+        for (int i = 0; i < temp1; i++)
+            m_tabRemontees.push_back(std::make_pair("",std::make_pair(0,0)));
+        for (int i = 0; i < temp1; i++)
+        {
+            ifs2 >> var1 >> n1 >> n2;
+            if (ifs2.fail())
+                throw std::runtime_error("Probleme chargement remontees");
+            m_tabRemontees[i].first = var1;
+            m_tabRemontees[i].second.first = n1;
+            m_tabRemontees[i].second.second = n2;
+        }
+        ifs2 >> temp2;
         if (ifs2.fail())
-            throw std::runtime_error("Probleme chargement descentes");
-        m_tabDescentes[i].first = var2;
-        m_tabDescentes[i].second = n3;
-    }
+            throw std::runtime_error("Probleme lecture nb de descentes");
+        for (int i = 0; i < temp2; i++)
+            m_tabDescentes.push_back(std::make_pair("",0));
+        for (int i = 0; i < temp2; i++)
+        {
+            ifs2 >> var2 >> n3;
+            if (ifs2.fail())
+                throw std::runtime_error("Probleme chargement descentes");
+            m_tabDescentes[i].first = var2;
+            m_tabDescentes[i].second = n3;
+        }
 
-    ///Chargement preferences skieur
-    std::string p1,p2,p3;
-    ifs2 >> p1 >> p2 >> p3;
-    if (ifs2.fail())
-        throw std::runtime_error("Probleme lecture preferences");
-    m_pref.push_back(p1);
-    m_pref.push_back(p2);
-    m_pref.push_back(p3);
+        ///Chargement preferences skieur
+        std::string p1,p2,p3;
+        ifs2 >> p1 >> p2 >> p3;
+        if (ifs2.fail())
+            throw std::runtime_error("Probleme lecture preferences");
+        m_pref.push_back(p1);
+        m_pref.push_back(p2);
+        m_pref.push_back(p3);
 
-    ifs2.close();
+        ifs2.close();
 
-    ///Chargement sommets et arretes
-    std::ifstream ifs{ nomFichier };
-    if (!ifs)
-        throw std::runtime_error( "Impossible d'ouvrir le fichier " + nomFichier );
-    ifs >> m_ordre;
-    if (ifs.fail())
-        throw std::runtime_error("Probleme lecture ordre du graphe");
-
-    //Chargement sommets
-    int num1, num3;
-    std::string num2;
-    for (int i = 0; i < m_ordre; i++)
-    {
-        m_sommets.push_back(new Sommet{ i+1 });
-        ifs >> num1 >> num2 >> num3;
+        ///Chargement sommets et arretes
+        std::ifstream ifs{ nomFichier };
+        if (!ifs)
+            throw std::runtime_error( "Impossible d'ouvrir le fichier " + nomFichier );
+        ifs >> m_ordre;
         if (ifs.fail())
-            throw std::runtime_error("Probleme chargement donnees sommets");
-        m_sommets[i]->setNom(num2);
-        m_sommets[i]->setAlt(num3);
-    }
+            throw std::runtime_error("Probleme lecture ordre du graphe");
 
-    ifs >> m_taille;
-    if (ifs.fail())
-        throw std::runtime_error("Probleme lecture taille du graphe");
+        //Chargement sommets
+        int num1, num3;
+        std::string num2;
+        for (int i = 0; i < m_ordre; i++)
+        {
+            m_sommets.push_back(new Sommet{ i+1 });
+            ifs >> num1 >> num2 >> num3;
+            if (ifs.fail())
+                throw std::runtime_error("Probleme chargement donnees sommets");
+            m_sommets[i]->setNom(num2);
+            m_sommets[i]->setAlt(num3);
+        }
 
-    //Chargement arretes
-    int numArrete, s1, s2;
-    std::string nom1, nom2;
-    for (int i = 0; i < m_taille; i++)
-    {
-        ifs >> numArrete >> nom1 >> nom2 >> s1 >> s2;
+        ifs >> m_taille;
         if (ifs.fail())
-            throw std::runtime_error("Probleme chargement donnees arretes");
-        m_sommets[s1-1]->ajouterSuccesseurs(m_sommets[s2-1],calculTps(nom2,m_sommets[s1-1],m_sommets[s2-1],m_tabRemontees,m_tabDescentes),nom2,numArrete,nom1);
-    }
+            throw std::runtime_error("Probleme lecture taille du graphe");
+
+        //Chargement arretes
+        int numArrete, s1, s2;
+        std::string nom1, nom2;
+        for (int i = 0; i < m_taille; i++)
+        {
+            ifs >> numArrete >> nom1 >> nom2 >> s1 >> s2;
+            if (ifs.fail())
+                throw std::runtime_error("Probleme chargement donnees arretes");
+            m_sommets[s1-1]->ajouterSuccesseurs(m_sommets[s2-1],calculTps(nom2,m_sommets[s1-1],m_sommets[s2-1],m_tabRemontees,m_tabDescentes),nom2,numArrete,nom1);
+        }
+
 
     //afficherInfosTrajets();
+}
+
+void Graphe::ajoutProfil() {
+    std::string user, mdp;
+
+    std::cout << "Choisissez un nom d'utilisateur :";
+    std::cin >> user;
+    user+=".txt";
+
+    std::cout << "Choisissez votre mot de passe :";
+    std::cin >> mdp;
+
+    std::ofstream ifs(user.c_str());
+    if (!ifs)
+        throw std::runtime_error( "Impossible d'ouvrir le fichier " + user );
+
+    ifs << mdp << std::endl << std::endl;
+    ifs << m_tabRemontees.size() << std::endl;
+    for (auto elem : m_tabRemontees)
+        ifs << elem.first << "\t" << elem.second.first << "\t" << elem.second.second << std::endl;
+
+    ifs << std::endl << m_tabDescentes.size() << std::endl;
+    for (auto elem : m_tabDescentes)
+        ifs << elem.first << "\t" << elem.second << std::endl;
+
+    ifs << std::endl << m_pref[0]  << " " << m_pref[1] << " " <<m_pref[2];
+
+    ifs.close();
+
 }
 
 Graphe::~Graphe() {}
@@ -835,4 +866,6 @@ void Graphe::dijkstraExtended(Sommet *depart, float hTot, float Hdep, float Harr
     }
     std::cout << hVerif/100 << " H de trajet au total" << std::endl;
 }
+
+
 
