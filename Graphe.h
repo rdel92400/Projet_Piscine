@@ -34,6 +34,8 @@ public:
     void affichageBFS(int source, int destination, std::vector<int> parent);
     void dijkstra(Sommet* depart, Sommet* arrivee, std::string type);
     void dijkstraPref(Sommet* depart, Sommet* arrivee);
+    void dijkstraExtended(Sommet* depart, float hTot, float Hdep, float Harr);
+    void extension();
     void modifTemps();
     void modifPrefs();
     void rechercheCheminsDijkstra(std::string type);

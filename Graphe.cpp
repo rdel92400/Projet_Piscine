@@ -754,3 +754,85 @@ std::string Graphe::getNom() {
     return m_nom;
 }
 
+void Graphe::extension() {
+    Sommet *sDepart;
+    std::string depart;
+    float Hdepart, Harrivee, Htot;
+    bool condition = false;
+
+
+    do {
+        system("cls");
+        std::cout << "///Vous etes dans l'extension de la sation des Arc\\\\\\" << std::endl;
+        std::cout << std::endl << "Choisissez le sommet de depart : ";
+        std::cin >> depart;
+
+        for (const auto s : m_sommets)
+            if (s->getNom() == depart)
+                condition = true;
+
+        if (!condition)
+            std::cout << std::endl << "Ce sommet n'existe pas, veuillez en choisir un autre." << std::endl;
+
+    } while (!condition);
+
+    condition = false;
+
+    do {
+        std::cout << "Veuillez choisir une heure de depart (format 00h - 24h) :";
+        std::cin >> Hdepart;
+    } while (Hdepart>24 || Hdepart<0);
+
+    do {
+        std::cout << "Veuillez choisir une heure d'arrivee (format 00h - 24h) :";
+        std::cin >> Harrivee;
+    } while (Harrivee>24 || Harrivee<0 || Harrivee<Hdepart);
+
+    Htot = Harrivee - Hdepart;
+
+    for (const auto elem : m_sommets)
+    {
+        if (elem->getNom() == depart)
+            sDepart = elem;
+    }
+
+    dijkstraExtended(sDepart, Htot, Hdepart, Harrivee);
+
+}
+
+void Graphe::dijkstraExtended(Sommet *depart, float hTot, float Hdep, float Harr) {
+    int currenEdge = depart->getNum();
+    std::map<int, int> marque;
+    std::vector<int> parent;
+    float hVerif(0), hTemp;
+    int sTemp(0);
+
+    for (int i=0; i<m_sommets.size(); i++){
+        marque[i] = 0;
+    }
+
+    //s.second->getTps() < hTemp &&
+
+    while (hVerif < hTot*100){
+        hTemp = 10000;
+        for (auto s : m_sommets[currenEdge-1]->getSuccesseurs()){
+            if (s.first->getSuccesseurs().size() > 1 && marque[s.first->getNum()] < 8){
+                hTemp = s.second->getTps();
+                sTemp = s.first->getNum();
+            }
+        }
+        marque[sTemp]++;
+        parent.push_back(sTemp);
+        hVerif += hTemp;
+        currenEdge = sTemp;
+
+    }
+
+    std::cout << "En partant a " << Hdep << "H et pour arriver a la pause dejeuner a " << Harr << "H. " << "Vous devrez emprunter ce chemin : " << std::endl;
+    std::cout << depart->getNum() << " -> ";
+    for (auto elem : parent){
+        std::cout << elem << " -> ";
+    }
+    std::cout << hVerif/100 << " H de trajet au total" << std::endl;
+}
+

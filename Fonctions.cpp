@@ -6,11 +6,10 @@ void menu() {
     int depart, arrivee;
     int choix;
     Graphe g{"chargement.txt"};
-    //g.afficher();
 
     do {
         do {
-            system("cls");
+            ///system("cls"); A décommenter si on passe en console
             std::cout << "\n//////////////////// Bienvenue a la borne interactive des Arcs ! \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ \n" << std::endl;
 
             std::cout << "Que voulez-vous faire " << g.getNom() << " ?" <<std::endl;
@@ -78,7 +77,7 @@ void menu() {
 
             case 6 :
 
-                std::cout << "Zebi" << std::endl;
+                g.extension();
                 std::cout << std::endl;
                 std::cout << "0 - Arreter" << std::endl;
                 std::cout << "1 - Retour" << std::endl;
